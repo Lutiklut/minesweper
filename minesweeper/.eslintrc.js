@@ -11,5 +11,11 @@ module.exports = {
     ecmaVersion: 'latest',
   },
   rules: {
+    "linebreak-style": 0,
+    'no-plusplus': 'off',
+    "no-console": [
+      "warn",
+      { "allow": ["clear", "info", "error", "dir", "trace", "log"] }
+     ]
   },
 };

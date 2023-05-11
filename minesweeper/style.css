@@ -1,0 +1,32 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  
+ } 
+.name {
+  color:black;
+  background-attachment: fixed;
+  width:250px;
+  height:50px; 
+  margin: auto;
+  text-align: center;
+}
+
+.area {
+  margin: auto;
+  text-align: center;
+  display: grid;
+  grid-template-columns: repeat(10, 50px);
+  justify-content: center;
+  align-items: center;
+  
+}
+
+.btn {
+  width: 50px;
+  height: 50px;
+  margin: auto;
+  text-align: center;
+  
+}
