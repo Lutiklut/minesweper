@@ -2,7 +2,6 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  
  } 
 .name {
   color:black;
@@ -11,6 +10,50 @@
   height:50px; 
   margin: auto;
   text-align: center;
+}
+.total {
+  margin: auto;
+  max-width: 500px;
+  text-align: center;
+  display: grid;
+  grid-template-columns: repeat(3, 50px);
+  justify-content: space-between;
+  align-items: center;
+  border: 1px solid black;
+}
+.flag, .smile {
+  width: 50px;
+  height: 50px;
+  margin: auto;
+  text-align: center;
+  color:black;
+
+}
+.flag {
+  color: black;
+  text-align: center;
+  width: 23px;
+  height: 50px;
+  font-size: 18px;
+  font-family: monospace;
+  line-height: 50px;
+}
+
+.img {
+  width: 100%;
+}
+
+.timer {
+  width: 50px;
+  height: 50px;
+  margin: auto;
+  text-align: center;
+  color:black;
+  text-align: center;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1px ;
 }
 
 .area {
@@ -30,3 +73,33 @@
   text-align: center;
   color:black
 }
+
+#second, #minute {
+  color: black;
+  padding: 0px;
+  width: 23px;
+  height: 50px;
+  border-radius: 3px;
+  font-size: 18px;
+  font-family: monospace;
+  line-height: 50px;
+}
+
+.colon {
+  color: black;
+  padding: 0px;
+  width: 5px;
+  height: 50px;
+  border-radius: 1px;
+  font-size: 18px;
+  font-family: monospace;
+  line-height: 50px;
+  text-align: center;
+  margin-right: 2px;
+}
+.time{
+   
+  margin-left: -25px;
+}
+
+
