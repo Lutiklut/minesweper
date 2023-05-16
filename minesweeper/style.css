@@ -10,16 +10,17 @@
   height:50px; 
   margin: auto;
   text-align: center;
+ 
 }
 .total {
   margin: auto;
-  max-width: 500px;
+  max-width: 1000px;
   text-align: center;
   display: grid;
   grid-template-columns: repeat(3, 50px);
   justify-content: space-between;
   align-items: center;
-  border: 1px solid black;
+  border: 2px solid black;
 }
 .flag, .smile {
   width: 50px;
@@ -57,21 +58,26 @@
 }
 
 .area {
+  max-width: 1000px;
   margin: auto;
   text-align: center;
   display: grid;
-  grid-template-columns: repeat(10, 50px);
+  grid-template-columns: repeat(10, minmax(40px, 100px));
   justify-content: center;
   align-items: center;
+  border: 2px solid black;
   
 }
 
 .btn {
-  width: 50px;
+  width: 100%;
   height: 50px;
   margin: auto;
   text-align: center;
-  color:black
+  color:black;
+  font-size: 30px;
+  font-family: monospace;
+  line-height: 50px;
 }
 
 #second, #minute {
@@ -102,4 +108,66 @@
   margin-left: -25px;
 }
 
+.popup {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background: rgba(41, 41, 41, 0.7);
+  display: none;
+  pointer-events: auto;
+  border: 2px solid black;
+}
 
+.close {
+  width: 52px;
+  height: 52px;
+  position: relative;
+
+  bottom: 0;
+  margin: auto;
+  font-size: 35px;
+  font-family: monospace;
+  line-height: 90px;
+  text-decoration: none;
+  color: black;
+  z-index: 1;
+  border: 2px solid black;
+
+}
+
+
+.information{ 
+  position: relative;
+  justify-content: center;
+  margin: auto;
+  max-width: 300px;
+  height: 200px;
+  color: black;
+  font-size: 25px;
+  font-family: monospace;
+  line-height: 40px;
+  text-align: center;
+  background-color: azure;
+  align-items: center;
+  vertical-align: middle;
+  border: 2px solid black;
+  left:0;
+
+}
+
+.modal{  
+  position: relative;
+  justify-content: center;
+  margin: auto ;
+  background: rgba(0,0,0,0);
+  height: 552px;
+  display:flex;
+  text-align: start;
+  align-items:start;
+  justify-content: center;
+  gap: 0px;
+  border: 2px solid black;
+  
+}

@@ -1,3 +1,30 @@
+const flagSymb ='&#128681;';
+const popup = document.createElement('DIV');
+popup.classList.add('popup');
+document.body.appendChild(popup);
+
+const modal = document.createElement('DIV');
+modal.classList.add('modal');
+popup.appendChild(modal);
+const info = document.createElement('DIV');
+info.classList.add('information');
+modal.appendChild(info);
+const close = document.createElement('DIV');
+close.classList.add('close');
+modal.appendChild(close);
+close.innerHTML = '&#9421;';
+
+
+
+
+close.addEventListener('click',()=> { 
+  popup.style.display = 'none';
+  document.body.style.overflow = "";
+  smile.disabled = false;
+});
+
+
+
 const headerName = document.createElement('H1');
 headerName.classList.add('name');
 document.body.appendChild(headerName);
@@ -23,6 +50,9 @@ image.src  = 'img/game.jpeg';
 image.alt = 'Think smile';
 smile.appendChild(image);
 
+smile.addEventListener('click',()=> {
+    document.location.reload();
+});
 
 const stopwatch = document.createElement('DIV');
 stopwatch.classList.add('timer');
@@ -63,42 +93,38 @@ var ms = 0;
 var sec = document.getElementById('second');
 var min = document.getElementById('minute');
 
-function start() {
-    stop();
+function startGame() {
+    stopGame();
     timerInterval = setInterval(function() {
       timer += 1/60;
-      let msVal = Math.floor((timer - Math.floor(timer))*100);
-      let secondVal = Math.floor(timer) - Math.floor(timer/60) * 60;
-      let minuteVal = Math.floor(timer/60);
-      if (msVal < 10) {
-        ms = "0" + secondVal.toString();
+      let msF = Math.floor((timer - Math.floor(timer))*100);
+      let secondF = Math.floor(timer) - Math.floor(timer/60) * 60;
+      let minuteF = Math.floor(timer/60);
+      if (msF < 10) {
+        ms = "0" + secondF.toString();
       }
       else {
-        ms = msVal;
+        ms = msF;
       }
-      if (secondVal < 10) {
-        second.innerHTML = "0" + secondVal.toString();
-      }
-      else {
-        second.innerHTML = secondVal;
-      }
-      if (minuteVal < 10) {
-        minute.innerHTML = "0" + minuteVal.toString();
+      if (secondF < 10) {
+        second.innerHTML = "0" + secondF.toString();
       }
       else {
-        minute.innerHTML = minuteVal;
+        second.innerHTML = secondF;
       }
-
-     // ms = msVal < 10 ? "0" + msVal.toString() : msVal;
-    //   second.innerHTML = secondVal < 10 ? "0" + secondVal.toString() : secondVal;
-    //   minute.innerHTML = minuteVal < 10 ? "0" + minuteVal.toString() : minuteVal;
+      if (minuteF < 10) {
+        minute.innerHTML = "0" + minuteF.toString();
+      }
+      else {
+        minute.innerHTML = minuteF;
+      }
     }, 1000/60);
   }
   
-  function stop() {
+  function stopGame() {
     clearInterval(timerInterval);
+
   }
-//vpered()
 
 
 function getRandomNumbers(quantity, range) {
@@ -126,7 +152,7 @@ for (let i = 0; i < buttons.length; i++) {
 let countOpenCells = [];
 
 mineArea.addEventListener('click', (event) => {
-    start()
+    startGame()
   const btnClass = event.target;
   
   if (btnClass.classList.contains('btn')) {
@@ -136,9 +162,24 @@ mineArea.addEventListener('click', (event) => {
     console.log('coordinate: ' + coorBtn);
 
       if(bomb.includes(coorBtn)){
-       event.target.innerHTML = 'ХХ';
-       event.target.disabled = true;
-       stop() 
+        event.target.innerHTML = '&#164;';
+        event.target.disabled = true;
+        for(let mine of bomb) {
+          mineAreaDom.children[mine].innerHTML = '&#128163;';
+        };
+        for(let i = 0; i < mineAreaDom.children.length; i++) {
+          mineAreaDom.children[i].disabled = true;
+        };
+        stopGame();
+        let time = Number(second.innerHTML)+Number(minute.innerHTML)
+        console.log(`${time}`)
+        image.src = 'img/loose.png';
+        info.innerHTML = `К сожалению, Вы проиграли. Время игры - ${time} сек.`;
+        popup.style.display ='block';
+        mineAreaDom.disabled = true;
+        document.body.style.overflow = "hidden"
+        smile.disabled = true;
+        
       }
       else{
         if (count(x, y) === 0){
@@ -171,7 +212,7 @@ mineArea.addEventListener('click', (event) => {
   
   countOpenCells = Array.from(new Set(countOpenCells));
   if (countOpenCells.length === 90) {
-    stop();
+    stopGame();
     image.src = 'img/win.png'
     alert('you win')
   }
@@ -185,11 +226,11 @@ function checkBomb (x, y) {
   return x >= 1 && x <= 10 && y >= 1 && y <= 10; 
 };
      
-
+const colorCount =['blue', 'green', 'red', 'yellow', 'brown', 'orange', 'lightskyblue', 'pink', 'violet']
 function count(x, y) {
   let count = 0;
-    for(let i = -1; i<= 1; i++) {
-      for(let j = -1; j<= 1; j++) {
+    for(let i = -1; i <= 1; i++) {
+      for(let j = -1; j <= 1; j++) {
         let coorBtn = mod(Number(y) - 1 + i, 10) + Number((x-1+j)*10);      
         if(bomb.includes(coorBtn)&&checkBomb(Number(x)+j,Number(y)+i) ) {
           count++;
@@ -197,14 +238,10 @@ function count(x, y) {
       }
     } 
     coorBtn = mod(Number(y) - 1 , 10) + Number((x-1)*10); 
-    if (count === 1) {
-        mineAreaDom.children[coorBtn].style.color = 'blue'
-    }
-    else if (count === 2) {
-        mineAreaDom.children[coorBtn].style.color = 'green'
-    }
-    else if (count === 3) {
-        mineAreaDom.children[coorBtn].style.color = 'red'
+    for (let c = 1; c <= colorCount.length; c++) {
+      if (count === c) {
+        mineAreaDom.children[coorBtn].style.color = colorCount[c-1];
+      }
     }
   return count;
 }
