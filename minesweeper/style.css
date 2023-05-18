@@ -14,7 +14,7 @@
 }
 .total {
   margin: auto;
-  max-width: 1000px;
+  max-width: 500px;
   text-align: center;
   display: grid;
   grid-template-columns: repeat(3, 50px);
@@ -22,12 +22,13 @@
   align-items: center;
   border: 2px solid black;
 }
-.flag, .smile {
+.flag{
   width: 50px;
   height: 50px;
   margin: auto;
   text-align: center;
   color:black;
+
 
 }
 .flag {
@@ -35,13 +36,13 @@
   text-align: center;
   width: 23px;
   height: 50px;
-  font-size: 18px;
+  font-size: 20px;
   font-family: monospace;
   line-height: 50px;
 }
 
-.img {
-  width: 100%;
+.smile{
+  font-size: 35px;
 }
 
 .timer {
@@ -58,11 +59,11 @@
 }
 
 .area {
-  max-width: 1000px;
+  max-width: 500px;
   margin: auto;
   text-align: center;
   display: grid;
-  grid-template-columns: repeat(10, minmax(40px, 100px));
+  grid-template-columns: repeat(10, minmax(40px, 50px));
   justify-content: center;
   align-items: center;
   border: 2px solid black;
@@ -78,6 +79,7 @@
   font-size: 30px;
   font-family: monospace;
   line-height: 50px;
+  
 }
 
 #second, #minute {
@@ -114,26 +116,24 @@
   right: 0;
   bottom: 0;
   left: 0;
-  background: rgba(41, 41, 41, 0.7);
+  background: rgba(41, 41, 41, 0.3);
   display: none;
   pointer-events: auto;
-  border: 2px solid black;
+  z-index: -100;
 }
 
 .close {
-  width: 52px;
-  height: 52px;
+  width: 100px;
+  height: 42px;
   position: relative;
-
   bottom: 0;
-  margin: auto;
-  font-size: 35px;
+  margin: -52px auto 0;
+  font-size: 25px;
   font-family: monospace;
-  line-height: 90px;
   text-decoration: none;
-  color: black;
+  color: azure;
   z-index: 1;
-  border: 2px solid black;
+ 
 
 }
 
@@ -142,9 +142,9 @@
   position: relative;
   justify-content: center;
   margin: auto;
-  max-width: 300px;
+  max-width: 350px;
   height: 200px;
-  color: black;
+  color: red;
   font-size: 25px;
   font-family: monospace;
   line-height: 40px;
@@ -152,22 +152,35 @@
   background-color: azure;
   align-items: center;
   vertical-align: middle;
-  border: 2px solid black;
   left:0;
+  background: rgba(41, 41, 41, 0.9);
+  border-radius: 10px;
 
 }
 
 .modal{  
   position: relative;
   justify-content: center;
-  margin: auto ;
+  margin: 200px ;
   background: rgba(0,0,0,0);
-  height: 552px;
+  height: 202px;
   display:flex;
-  text-align: start;
-  align-items:start;
+  flex-direction: column;
+  text-align: center;
+  align-items:center;
   justify-content: center;
-  gap: 0px;
-  border: 2px solid black;
   
+}
+
+
+
+@media screen and (min-width : 320px) and (max-width: 768px)  {
+
+  .information{ 
+    font-size: 15px;
+    line-height: 20px;
+  }
+  .close {
+    font-size: 15px;  
+  }
 }
