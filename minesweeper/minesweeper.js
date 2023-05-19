@@ -251,8 +251,8 @@ mineAreaDom.addEventListener('click', (event) => {
       mineAreaDom.children[i].disabled = true;
     };
     stopGame();
-    winLose (); 
-    loose ();  
+    loose ();
+    winLose ();   
   }
   else{
     if (count(x, y) === 0){
@@ -299,11 +299,9 @@ mineAreaDom.addEventListener('click', (event) => {
 
   if (countOpenCells.length === 90) {
     stopGame();
-    winLose (); 
     win();
+    winLose (); 
   } 
- // console.log(stateCells, 'stateCells.push(mineAreaDom.children[i].innerHTML);');
- // console.log(disabledArrey, 'disabledArrey');
   if (localStorage.getItem('disabled').length > 0) {
     localStorage.setItem('disabled',localStorage.getItem('disabled')+','+disabledArrey.toString());}
   else {
@@ -318,11 +316,7 @@ mineAreaDom.addEventListener('click', (event) => {
   var colors = children.map(function(child) {
     return window.getComputedStyle(child).getPropertyValue("color");
   });
-  
-  // Вывод цветов в консоль
- // console.log(colors);
-
-localStorage.setItem('colorCount',colors.toString())
+  localStorage.setItem('colorCount',colors.toString())
 });
 
 
@@ -332,6 +326,10 @@ let timeW = Number(second.innerHTML)+Number(minute.innerHTML)*60;
     localStorage.setItem('minute', minute.innerHTML);
 }
 setInterval(myFunction, 1000);
+
+function stopFunction() {
+    clearInterval(setInterval(myFunction, 1000));
+}
 
 function winLose () {
   countOpenCells = [];
@@ -343,7 +341,16 @@ function winLose () {
   let flagSet = [];
   localStorage.setItem('flag', flagSet.toString());
   flag.innerHTML = 10;
+  second.innerHTML = '00';
+  minute.innerHTML = '00';
   localStorage.setItem('flagCount', flag.innerHTML.toString());
+  stopFunction();
+  timer = 0;
+  console.log( localStorage.getItem('second'), ' localStorage.setItem')
+  localStorage.setItem('second', timer.toString());
+  localStorage.setItem('minute', '00');
+  startGame = false;
+
 }
 
 function win () {
