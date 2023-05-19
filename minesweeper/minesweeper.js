@@ -79,9 +79,21 @@ for (let i = 1; i <= quantity; i++) {
   cell.classList.add('btn');
   mineArea.appendChild(cell);
 }
-
-
 var timer = 0;
+if(localStorage.getItem('second').length > 0) {
+  timer = Number(localStorage.getItem('second'));
+  if (localStorage.getItem('second').length === 1) {
+    let se = localStorage.getItem('second');
+
+    second.innerHTML = '0' + se.toString();
+    console.log(se, 'se')
+  }
+  else{ second.innerHTML = localStorage.getItem('second');}
+ 
+  minute.innerHTML = localStorage.getItem('minute');
+  console.log(localStorage.getItem('second'), 'localStorage.getItem(second);')
+}
+
 var timerInterval;
 var ms = 0;
 var sec = document.getElementById('second');
@@ -154,29 +166,49 @@ let stateCells = [];
 let historyGame = false;
 
 function localStorageFunc () {
-    //console.log(localStorage.getItem('bombArrey').split('.') != 0, "localStorage.getItem('bombArrey').split('.') != 0")
+  
   if (localStorage.getItem('bombArrey') !== '') {
     bombIsReady = true;
     bomb = localStorage.getItem('bombArrey').split(',');
- // console.log(localStorage.getItem('bombArrey'), 'bombArrey');
-    let inner =localStorage.getItem('inner').split(',');
+    let inner = localStorage.getItem('inner').split(',');
     console.log(inner, 'inner');
     let dis = localStorage.getItem('disabled').split(',');
-
-    console.log(dis, "dis");
+    console.log(dis, "dis1");
+    // if (dis.length) {
+    //     dis= dis.slice(1);
+    // }
     dis = dis.map(el => Number(el));
-    console.log(dis, "dis");
-    for (let i = 0;  i < inner.length; i++) {
-     
-        console.log(typeof(dis[i]), "typeof(dis[i])[i]");  
-      if(dis.includes(i)) {
-        console.log(inner[i], "inner[i]"); 
-        console.log(localStorage.getItem('inner').split('.')[i], "localStorage.getItem('inner').split('.')[i]");  
-        mineAreaDom.children[i].innerHTML = inner[i];
-      
-        mineAreaDom.children[i].disabled = true;}
-    
+    console.log(dis, "dis3");
+    const obj = dis.reduce((object, key, index) => {
+        object[key] = inner[index];
+        return object;
+      }, {});
+    const keys = Object.keys(obj);
+    for (let i of keys) { 
+      if (i < mineAreaDom.children.length) {  
+        mineAreaDom.children[i].disabled = true;
+        mineAreaDom.children[i].innerHTML = obj[i];
+        }
+    }
+    startGame = false;
+  }
+  let flagS = localStorage.getItem('flag').split(',');
+  console.log(flagS,'flags');
+  flagS = flagS.filter((number) => number !== '');
+  console.log(flagS,'flags without   ');
+  flagS = flagS.map(el => Number(el));
+  if (flagS) {
+  for (let el of flagS){
+    mineAreaDom.children[el].innerHTML = '🚩';
+    mineAreaDom.children[el].disabled = true;
   }}
+   // flagS.forEach(el=> {})//}
+  flag.innerHTML=localStorage.getItem('flagCount');
+//   let timeLoc=localStorage.getItem('time').split(',')
+//   console.log(timeLoc, 'timeLoc')
+//   minute.innerHTML = timeLoc[1];
+//   second.innerHTML = timeLoc[0];
+  
   historyGame = true;
 }
 
@@ -194,21 +226,26 @@ mineAreaDom.addEventListener('click', (event) => {
   if (!startGame) {
     startGameTimer()
   }
-
   const btnClass = event.target;
   const coordinate = btnClass.dataset.coordinates;
   let [x, y] = coordinate.split(":");
   const coorBtn = Number((y-1)%10) + Number((x-1)*10);
   if (!bombIsReady){
     bomb = getRandomNumbers(10, quantity, coorBtn);
-    console.log(bomb);
+    console.log(bomb, 'generate');
+    localStorage.setItem('bombArrey', bomb.toString()) ;
   }
-  localStorage.setItem('bombArrey', bomb.toString()) ;
-  localStorage.setItem('bombArrey', bomb.toString()) ;
-  console.log(localStorage.getItem('bombArrey'), 'bombArrey') 
+  else {
+    bomb = localStorage.getItem('bombArrey').split(',')
+    bomb = bomb.map(el => Number(el));;
+  }
+  console.log(bomb, 'local')
+  
+  //console.log(localStorage.getItem('bombArrey'), 'bombArrey') 
   if(bomb.includes(coorBtn)){
-    event.target.innerHTML = '&#164;';
+    event.target.innerHTML = '&#128163;';
     event.target.disabled = true;
+
     for(let mine of bomb) {
       mineAreaDom.children[mine].innerHTML = '&#128163;';
     };
@@ -216,12 +253,18 @@ mineAreaDom.addEventListener('click', (event) => {
       mineAreaDom.children[i].disabled = true;
     };
     stopGame();
+    countOpenCells = [];
+    localStorage.setItem('countOpenCells',countOpenCells.toString());
+    disabledArrey = [];
+    localStorage.setItem('disabled',disabledArrey.toString());
+    stateCells = [];
+    localStorage.setItem('inner', stateCells.toString());
     loose ();  
   }
   else{
     if (count(x, y) === 0){
       let zeros = countAllZeros(x, y);
-          console.log('zeros =', zeros);
+        //  console.log('zeros =', zeros);
       for(let i of zeros) {
         countOpenCells.push(i);
         disabledArrey.push(i);
@@ -250,16 +293,64 @@ mineAreaDom.addEventListener('click', (event) => {
       disabledArrey.push(coorBtn);
     }
   }
+  if( localStorage.getItem('countOpenCells').length > 0){
+    localStorage.setItem('countOpenCells', localStorage.getItem('countOpenCells')+','+countOpenCells.toString());
+    countOpenCells = localStorage.getItem('countOpenCells').split('.');
+    console.log(countOpenCells, 'countOpenCells without num');
+    countOpenCells = countOpenCells.map(el => Number(el))
+    console.log(countOpenCells, 'countOpenCells with 0');
+  }
+  else {localStorage.setItem('countOpenCells', countOpenCells.toString()); }
+  
+  countOpenCells = localStorage.getItem('countOpenCells').split(',');
+
+  console.log(countOpenCells, 'countOpenCells');
+//   if (mineAreaDom.children[bomb[0]].disabled) {
+//     countOpenCells = [];
+//     localStorage.setItem('countOpenCells',countOpenCells.toString());
+//     console.log('booooomb');
+//   }
+  countOpenCells = countOpenCells.filter((number) => number !== '' );
+  countOpenCells = countOpenCells.map(el => Number(el))
   countOpenCells = Array.from(new Set(countOpenCells));
+//   countOpenCells = countOpenCells.filter((value, index, self) => {
+//     return self.indexOf(value) === index;
+//   });
+  
+  console.log(countOpenCells, 'countOpenCellsnew');
   if (countOpenCells.length === 90) {
     stopGame();
+    countOpenCells = [];
+    localStorage.setItem('countOpenCells',countOpenCells.toString());
+    disabledArrey = [];
+    localStorage.setItem('disabled',disabledArrey.toString());
+    stateCells = [];
+    localStorage.setItem('inner', stateCells.toString());
     win();
   } 
   console.log(stateCells, 'stateCells.push(mineAreaDom.children[i].innerHTML);');
   console.log(disabledArrey, 'disabledArrey');
-  localStorage.setItem('disabled',disabledArrey.toString());
-  localStorage.setItem('inner', stateCells.toString())
+  if (localStorage.getItem('disabled').length > 0) {
+    localStorage.setItem('disabled',localStorage.getItem('disabled')+','+disabledArrey.toString());}
+  else {
+    localStorage.setItem('disabled',disabledArrey.toString());
+  }
+  if (localStorage.getItem('inner').length > 0) {
+    localStorage.setItem('inner',  localStorage.getItem('inner')+','+stateCells.toString());}
+  else {
+    localStorage.setItem('inner',stateCells.toString());
+  }
 });
+
+
+function myFunction() {
+let timeW = Number(second.innerHTML)+Number(minute.innerHTML)*60;    
+    localStorage.setItem('second', timeW.toString());
+    localStorage.setItem('minute', minute.innerHTML);
+}
+setInterval(myFunction, 1000);
+
+
 
 function win () {
   smile.innerHTML = '&#128526;'
@@ -477,8 +568,11 @@ function addFlag() {
 }
 
 
-let countLongLeftMousClick =0;
-
+let countLongLeftMousClick = 0;
+let flagSet =  localStorage.getItem('flag').split(',');
+flagSet = flagSet.filter((number) => number !== '');
+flagSet = flagSet.map(el => Number(el));
+console.log(flagSet, 'flagSet')
 mineAreaDom.addEventListener('contextmenu', (event)=>{
   event.preventDefault();
   src = 'audio/tick.mp3';
@@ -486,8 +580,13 @@ mineAreaDom.addEventListener('contextmenu', (event)=>{
   if (!startGame) {
     startGameTimer();
   }
+  const btnClass = event.target;
+  const coordinate = btnClass.dataset.coordinates;
+  let [x, y] = coordinate.split(":");
+  let coorBtn = Number((y-1)%10) + Number((x-1)*10);
   if (event.target.innerHTML === '🚩') {
-
+    flagSet = flagSet.filter((number) => number !== coorBtn);
+    console.log(flagSet, 'flagSetdelite')
     flag.innerHTML = addFlag() + 1;
     event.target.innerHTML='';
     event.target.disabled =false;
@@ -504,10 +603,16 @@ mineAreaDom.addEventListener('contextmenu', (event)=>{
       const btnClass = event.target;
       const coordinate = btnClass.dataset.coordinates;
       let [x, y] = coordinate.split(":");
-      const coorBtn = Number((y - 1) % 10) + Number((x - 1) * 10);
+      coorBtn = Number((y - 1) % 10) + Number((x - 1) * 10);
+      flagSet.push(coorBtn);
       event.target.innerHTML = '&#128681;'; 
-      event.target.disabled = true;}
+      event.target.disabled = true;
+    }
   }
+  localStorage.setItem('flag', flagSet.toString());
+    
+  localStorage.setItem('flagCount', flag.innerHTML.toString());
+  console.log(localStorage.getItem('flag'),  'localka')
 })
 
 
@@ -515,9 +620,11 @@ smile.addEventListener('click',(e)=> {
     //document.location.reload();
     src = 'audio/start.mp3'
     soundClick(src); 
+    stopGame()
     flag.innerHTML = 10;
     countLongLeftMousClick =0;
     countOpenCells = [];
+    flagSet = [];
     bomb =[];
     second.innerHTML = '00';
     minute.innerHTML = '00';
@@ -531,12 +638,17 @@ smile.addEventListener('click',(e)=> {
     mineAreaDom.disabled = false;
     disabledArrey = [];
     stateCells =[];
+    countOpenCells = [];
 
     smile.innerHTML = '	&#129488;';
     localStorage.setItem('bombArrey',bomb.toString());
     localStorage.setItem('disabled',disabledArrey.toString());
-    localStorage.setItem('inner', stateCells.toString())
-    
+    localStorage.setItem('inner', stateCells.toString());
+    localStorage.setItem('flag', flagSet.toString());
+    localStorage.setItem('flagCount', flag.innerHTML.toString());
+    localStorage.setItem('countOpenCells',countOpenCells.toString());
+    localStorage.setItem('second', timer.toString());
+    localStorage.setItem('minute', '00');
     for (let cell =0; cell < 100 ; cell++) {
         //console.log (cell , 'cell ' )
 
@@ -551,8 +663,8 @@ smile.addEventListener('click',(e)=> {
 
   //===========audio========
   function soundClick(src) {
-    var audio = new Audio(); // Создаём новый элемент Audio
-    audio.src = src; // Указываем путь к звуку "клика"
-    audio.autoplay = true; // Автоматически запускаем
+    var audio = new Audio(); 
+    audio.src = src; 
+    audio.autoplay = true; 
   }
 
