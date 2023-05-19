@@ -164,6 +164,8 @@ let disabledArrey = [];
 let stateCells = [];
 
 let historyGame = false;
+var children = Array.from(mineAreaDom.children);
+
 
 function localStorageFunc () {
   
@@ -174,9 +176,7 @@ function localStorageFunc () {
     console.log(inner, 'inner');
     let dis = localStorage.getItem('disabled').split(',');
     console.log(dis, "dis1");
-    // if (dis.length) {
-    //     dis= dis.slice(1);
-    // }
+
     dis = dis.map(el => Number(el));
     console.log(dis, "dis3");
     const obj = dis.reduce((object, key, index) => {
@@ -202,19 +202,19 @@ function localStorageFunc () {
     mineAreaDom.children[el].innerHTML = '🚩';
     mineAreaDom.children[el].disabled = true;
   }}
-   // flagS.forEach(el=> {})//}
+
   flag.innerHTML=localStorage.getItem('flagCount');
-//   let timeLoc=localStorage.getItem('time').split(',')
-//   console.log(timeLoc, 'timeLoc')
-//   minute.innerHTML = timeLoc[1];
-//   second.innerHTML = timeLoc[0];
+
+ let color = localStorage.getItem('colorCount').match(/rgb\(\d+,\s*\d+,\s*\d+\)/g);
+ for (let i = 0; i< color.length; i++){
+    children[i].style.color = color[i];
+ }
   
   historyGame = true;
 }
 
 if (!historyGame) {
     localStorageFunc();
-    console.log(111) 
 }
 mineAreaDom.addEventListener('click', (event) => {
   event.stopPropagation();
@@ -240,8 +240,6 @@ mineAreaDom.addEventListener('click', (event) => {
     bomb = bomb.map(el => Number(el));;
   }
   console.log(bomb, 'local')
-  
-  //console.log(localStorage.getItem('bombArrey'), 'bombArrey') 
   if(bomb.includes(coorBtn)){
     event.target.innerHTML = '&#128163;';
     event.target.disabled = true;
@@ -253,12 +251,7 @@ mineAreaDom.addEventListener('click', (event) => {
       mineAreaDom.children[i].disabled = true;
     };
     stopGame();
-    countOpenCells = [];
-    localStorage.setItem('countOpenCells',countOpenCells.toString());
-    disabledArrey = [];
-    localStorage.setItem('disabled',disabledArrey.toString());
-    stateCells = [];
-    localStorage.setItem('inner', stateCells.toString());
+    winLose (); 
     loose ();  
   }
   else{
@@ -296,40 +289,21 @@ mineAreaDom.addEventListener('click', (event) => {
   if( localStorage.getItem('countOpenCells').length > 0){
     localStorage.setItem('countOpenCells', localStorage.getItem('countOpenCells')+','+countOpenCells.toString());
     countOpenCells = localStorage.getItem('countOpenCells').split('.');
-    console.log(countOpenCells, 'countOpenCells without num');
     countOpenCells = countOpenCells.map(el => Number(el))
-    console.log(countOpenCells, 'countOpenCells with 0');
   }
   else {localStorage.setItem('countOpenCells', countOpenCells.toString()); }
-  
   countOpenCells = localStorage.getItem('countOpenCells').split(',');
-
-  console.log(countOpenCells, 'countOpenCells');
-//   if (mineAreaDom.children[bomb[0]].disabled) {
-//     countOpenCells = [];
-//     localStorage.setItem('countOpenCells',countOpenCells.toString());
-//     console.log('booooomb');
-//   }
   countOpenCells = countOpenCells.filter((number) => number !== '' );
   countOpenCells = countOpenCells.map(el => Number(el))
   countOpenCells = Array.from(new Set(countOpenCells));
-//   countOpenCells = countOpenCells.filter((value, index, self) => {
-//     return self.indexOf(value) === index;
-//   });
-  
-  console.log(countOpenCells, 'countOpenCellsnew');
+
   if (countOpenCells.length === 90) {
     stopGame();
-    countOpenCells = [];
-    localStorage.setItem('countOpenCells',countOpenCells.toString());
-    disabledArrey = [];
-    localStorage.setItem('disabled',disabledArrey.toString());
-    stateCells = [];
-    localStorage.setItem('inner', stateCells.toString());
+    winLose (); 
     win();
   } 
-  console.log(stateCells, 'stateCells.push(mineAreaDom.children[i].innerHTML);');
-  console.log(disabledArrey, 'disabledArrey');
+ // console.log(stateCells, 'stateCells.push(mineAreaDom.children[i].innerHTML);');
+ // console.log(disabledArrey, 'disabledArrey');
   if (localStorage.getItem('disabled').length > 0) {
     localStorage.setItem('disabled',localStorage.getItem('disabled')+','+disabledArrey.toString());}
   else {
@@ -340,6 +314,15 @@ mineAreaDom.addEventListener('click', (event) => {
   else {
     localStorage.setItem('inner',stateCells.toString());
   }
+
+  var colors = children.map(function(child) {
+    return window.getComputedStyle(child).getPropertyValue("color");
+  });
+  
+  // Вывод цветов в консоль
+ // console.log(colors);
+
+localStorage.setItem('colorCount',colors.toString())
 });
 
 
@@ -350,7 +333,18 @@ let timeW = Number(second.innerHTML)+Number(minute.innerHTML)*60;
 }
 setInterval(myFunction, 1000);
 
-
+function winLose () {
+  countOpenCells = [];
+  localStorage.setItem('countOpenCells',countOpenCells.toString());
+  disabledArrey = [];
+  localStorage.setItem('disabled',disabledArrey.toString());
+  stateCells = [];
+  localStorage.setItem('inner', stateCells.toString());
+  let flagSet = [];
+  localStorage.setItem('flag', flagSet.toString());
+  flag.innerHTML = 10;
+  localStorage.setItem('flagCount', flag.innerHTML.toString());
+}
 
 function win () {
   smile.innerHTML = '&#128526;'
@@ -521,6 +515,9 @@ function countZero(x, y) {
   return countZero;
 }
 
+
+
+
 function mod(n, m) {
     return ((n % m) + m) % m;
   }
@@ -609,6 +606,7 @@ mineAreaDom.addEventListener('contextmenu', (event)=>{
       event.target.disabled = true;
     }
   }
+
   localStorage.setItem('flag', flagSet.toString());
     
   localStorage.setItem('flagCount', flag.innerHTML.toString());
