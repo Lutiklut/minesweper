@@ -392,9 +392,9 @@ mineAreaDom.addEventListener('click', (event) => {
     winLose();
   }
   if (localStorage.getItem('disabled')) {
-    if (localStorage.getItem('disabled').length > 0) {
+   
       localStorage.setItem('disabled', `${localStorage.getItem('disabled')},${disabledArrey.toString()}`);
-    }  }
+    }
    else {
     localStorage.setItem('disabled', disabledArrey.toString());
 }
