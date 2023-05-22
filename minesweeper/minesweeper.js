@@ -197,7 +197,7 @@ function localStorageFunc() {
     if (localStorage.getItem('bombArrey')){
       bomb = localStorage.getItem('bombArrey').split(',');
     }
-    const inner =[];
+    let inner =[];
     if (localStorage.getItem('inner')){
     inner = localStorage.getItem('inner').split(',');}
     let dis = [];
