@@ -602,6 +602,9 @@ mineAreaDom.addEventListener('contextmenu', (event) => {
   if (!startGame) {
     startGameTimer();
   }
+  countClick++;
+  localStorage.setItem('countClick', countClick.toString());
+  clicks.innerHTML = countClick;
   const btnClass = event.target;
   const coordinate = btnClass.dataset.coordinates;
   const [x, y] = coordinate.split(':');
