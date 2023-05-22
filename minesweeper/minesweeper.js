@@ -586,8 +586,8 @@ function addFlag() {
 let countLongLeftMousClick = 0;
 
 let flagSet = [];
-if (localStorage.getItem('flag')) {
-  let flagSet = localStorage.getItem('flag').split(',');
+if (localStorage.getItem('flag') !== '') {
+  flagSet = localStorage.getItem('flag').split(',');
   flagSet = flagSet.filter((number) => number !== '');
   flagSet = flagSet.map((el) => Number(el));
 }
