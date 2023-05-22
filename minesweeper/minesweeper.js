@@ -613,7 +613,7 @@ mineAreaDom.addEventListener('contextmenu', (event) => {
     const btnClass = event.target;
     const coordinate = btnClass.dataset.coordinates;
     const [x, y] = coordinate.split(':');
-    coorBtn = Number((y - 1) % 10) + Number((x - 1) * 10);
+    let coorBtn = Number((y - 1) % 10) + Number((x - 1) * 10);
     flagSet.push(coorBtn);
     event.target.innerHTML = '&#128681;';
     event.target.disabled = true;
