@@ -192,7 +192,7 @@ let historyGame = false;
 const children = Array.from(mineAreaDom.children);
 
 function localStorageFunc() {
-  if (localStorage.getItem('bombArrey') !== '') {
+  if (localStorage.getItem('bombArrey')) {
     bombIsReady = true;
     if (localStorage.getItem('bombArrey')){
       bomb = localStorage.getItem('bombArrey').split(',');
@@ -202,9 +202,11 @@ function localStorageFunc() {
     inner = localStorage.getItem('inner').split(',');}
     let dis = [];
     if (localStorage.getItem('disabled')) {
-      dis = localStorage.getItem('disabled').split(',');}
-
+      dis = localStorage.getItem('disabled').split(',');
+      console.log(dis, 'dis в иф');
+    }
     dis = dis.map((el) => Number(el));
+    console.log(dis, 'dis в иф');
     const obj = dis.reduce((object, key, index) => {
       object[key] = inner[index];
       return object;
@@ -228,13 +230,17 @@ function localStorageFunc() {
       mineAreaDom.children[el].disabled = true;
     }
   }}
+  if (localStorage.getItem('flagCount')){
   flag.innerHTML = localStorage.getItem('flagCount');
+  }
   if (localStorage.getItem('colorCount')){
   const color = localStorage.getItem('colorCount').match(/rgb\(\d+,\s*\d+,\s*\d+\)/g);
   for (let i = 0; i < color.length; i++) {
     children[i].style.color = color[i];
   }}
-  countClick = localStorage.getItem('countClick');
+  if (localStorage.getItem('countClick')) {
+    countClick = localStorage.getItem('countClick');
+  }
   clicks.innerHTML = countClick;
   historyGame = true;
 }
@@ -388,17 +394,16 @@ mineAreaDom.addEventListener('click', (event) => {
   if (localStorage.getItem('disabled')) {
     if (localStorage.getItem('disabled').length > 0) {
       localStorage.setItem('disabled', `${localStorage.getItem('disabled')},${disabledArrey.toString()}`);
-    }
-  } else {
+    }  }
+   else {
     localStorage.setItem('disabled', disabledArrey.toString());
-  }
+}
   if (localStorage.getItem('inner')) {
-    if (localStorage.getItem('inner').length > 0) {
-      localStorage.setItem('inner', `${localStorage.getItem('inner')},${stateCells.toString()}`);
-    }
+    localStorage.setItem('inner', `${localStorage.getItem('inner')},${stateCells.toString()}`);
   }else {
     localStorage.setItem('inner', stateCells.toString());
   }
+
 
   const colors = children.map((child) => window.getComputedStyle(child).getPropertyValue('color'));
   localStorage.setItem('colorCount', colors.toString());
