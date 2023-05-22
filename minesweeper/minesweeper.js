@@ -323,8 +323,9 @@ mineAreaDom.addEventListener('click', (event) => {
     bomb = getRandomNumbers(10, quantity, coorBtn);
     localStorage.setItem('bombArrey', bomb.toString());
   } else {
+    if (localStorage.getItem('bombArrey')){
     bomb = localStorage.getItem('bombArrey').split(',');
-    bomb = bomb.map((el) => Number(el));
+    bomb = bomb.map((el) => Number(el));}
   }
   if (bomb.includes(coorBtn)) {
     event.target.innerHTML = '&#128163;';
