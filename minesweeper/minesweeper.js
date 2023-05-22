@@ -19,10 +19,35 @@ headerName.classList.add('name');
 document.body.appendChild(headerName);
 headerName.textContent = 'Minsweeper';
 
+const rules = document.createElement('BUTTON');
+rules.classList.add('rule');
+document.body.appendChild(rules);
+rules.textContent = 'Правила игры';
+
+
+
+
+const paragrRule = document.createElement('DIV');
+paragrRule.classList.add('paragrRule');
+document.body.appendChild(paragrRule);
+paragrRule.textContent = 'В игре установлено 10 мин.';
+paragrRule.textContent += ' При подозрении, что в ячейке находится мина, можно установить флажок ПКМ.';
+paragrRule.textContent += ' Снятие флажка так же осуществляется ПКМ.';
+paragrRule.textContent += ' Чтобы начать новую игру - нужно нажать на смайл.';
+paragrRule.textContent += ' Победой считается открытие всех незаминированных ячеек.';
+paragrRule.textContent += ' Проигрышем - открытие хотя бы одной мины.';
+
+rules.addEventListener('click', () => {
+  if (paragrRule.style.display === 'block') {
+    paragrRule.style.display = 'none';
+  } else {
+    paragrRule.style.display = 'block';
+  }
+})
+
 const totalArea = document.createElement('DIV');
 totalArea.classList.add('total');
 document.body.appendChild(totalArea);
-
 const flag = document.createElement('DIV');
 flag.classList.add('flag');
 totalArea.appendChild(flag);
