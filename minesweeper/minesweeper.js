@@ -197,8 +197,12 @@ function localStorageFunc() {
     if (localStorage.getItem('bombArrey')){
       bomb = localStorage.getItem('bombArrey').split(',');
     }
-    const inner = localStorage.getItem('inner').split(',');
-    let dis = localStorage.getItem('disabled').split(',');
+    const inner =[];
+    if (localStorage.getItem('inner')){
+    inner = localStorage.getItem('inner').split(',');}
+    let dis = [];
+    if (localStorage.getItem('disabled')) {
+      dis = localStorage.getItem('disabled').split(',');}
 
     dis = dis.map((el) => Number(el));
     const obj = dis.reduce((object, key, index) => {
