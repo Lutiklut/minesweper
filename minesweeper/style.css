@@ -41,7 +41,7 @@
   max-width: 500px;
   text-align: center;
   display: grid;
-  grid-template-columns: repeat(3, 50px);
+  grid-template-columns: repeat(4, 50px);
   justify-content: space-between;
   align-items: center;
   border: 2px solid black;
@@ -55,7 +55,7 @@
 
 
 }
-.flag {
+.flag, .clicks  {
   color: black;
   text-align: center;
   width: 23px;

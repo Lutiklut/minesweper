@@ -24,9 +24,6 @@ rules.classList.add('rule');
 document.body.appendChild(rules);
 rules.textContent = 'Правила игры';
 
-
-
-
 const paragrRule = document.createElement('DIV');
 paragrRule.classList.add('paragrRule');
 document.body.appendChild(paragrRule);
@@ -48,15 +45,23 @@ rules.addEventListener('click', () => {
 const totalArea = document.createElement('DIV');
 totalArea.classList.add('total');
 document.body.appendChild(totalArea);
-const flag = document.createElement('DIV');
-flag.classList.add('flag');
-totalArea.appendChild(flag);
-flag.innerHTML = 10;
 
 const smile = document.createElement('BUTTON');
 smile.classList.add('smile');
 totalArea.appendChild(smile);
 smile.innerHTML = '&#129488;';
+
+const flag = document.createElement('DIV');
+flag.classList.add('flag');
+totalArea.appendChild(flag);
+flag.innerHTML = 10;
+
+const clicks = document.createElement('DIV');
+clicks.classList.add('clicks');
+totalArea.appendChild(clicks);
+clicks.innerHTML = 0;
+
+
 
 close.addEventListener('click', () => {
   popup.style.display = 'none';
@@ -221,6 +226,7 @@ function localStorageFunc() {
     children[i].style.color = color[i];
   }
   countClick = localStorage.getItem('countClick');
+  clicks.innerHTML = countClick;
   historyGame = true;
 }
 
@@ -295,6 +301,7 @@ mineAreaDom.addEventListener('click', (event) => {
   if (event.target) {
     countClick++;
     localStorage.setItem('countClick', countClick.toString());
+    clicks.innerHTML = countClick;
   }
   if (!startGame) {
     startGameTimer();
@@ -636,6 +643,7 @@ smile.addEventListener('click', () => {
   localStorage.setItem('second', timer.toString());
   localStorage.setItem('minute', '00');
   localStorage.setItem('countClick', countClick.toString());
+  clicks.innerHTML = countClick;
   for (let cell = 0; cell < 100; cell++) {
     if (mineAreaDom.children[cell].innerHTML || mineAreaDom.children[cell].disabled) {
       mineAreaDom.children[cell].innerHTML = '';
