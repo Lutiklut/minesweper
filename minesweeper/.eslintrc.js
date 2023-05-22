@@ -13,6 +13,8 @@ module.exports = {
   rules: {
     "linebreak-style": 0,
     'no-plusplus': 'off',
+    "no-unused-vars": "off",
+    "no-param-reassign": ["error", { "props": false }],
     "no-shadow": "off",
     "eol-last": 0,
     "no-console": [
