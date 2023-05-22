@@ -112,7 +112,8 @@ for (let i = 1; i <= quantity; i++) {
   mineArea.appendChild(cell);
 }
 let timer = 0;
-if (localStorage.getItem('second').length > 0) {
+if(localStorage.getItem('second'))
+{if (localStorage.getItem('second').length > 0) {
   timer = Number(localStorage.getItem('second'));
   if (localStorage.getItem('second').length === 1) {
     const se = localStorage.getItem('second');
@@ -122,7 +123,7 @@ if (localStorage.getItem('second').length > 0) {
     second.innerHTML = localStorage.getItem('second');
   }
   minute.innerHTML = localStorage.getItem('minute');
-}
+}}
 
 let timerInterval;
 let ms = 0;
@@ -211,7 +212,8 @@ function localStorageFunc() {
     }
     startGame = false;
   }
-  let flagS = localStorage.getItem('flag').split(',');
+  if (localStorage.getItem('flag')) {
+  let flagS = localStorage.getItem('flag').split(','); 
   flagS = flagS.filter((number) => number !== '');
   flagS = flagS.map((el) => Number(el));
   if (flagS) {
@@ -219,12 +221,13 @@ function localStorageFunc() {
       mineAreaDom.children[el].innerHTML = '🚩';
       mineAreaDom.children[el].disabled = true;
     }
-  }
+  }}
   flag.innerHTML = localStorage.getItem('flagCount');
+  if (localStorage.getItem('colorCount')){
   const color = localStorage.getItem('colorCount').match(/rgb\(\d+,\s*\d+,\s*\d+\)/g);
   for (let i = 0; i < color.length; i++) {
     children[i].style.color = color[i];
-  }
+  }}
   countClick = localStorage.getItem('countClick');
   clicks.innerHTML = countClick;
   historyGame = true;
@@ -356,10 +359,12 @@ mineAreaDom.addEventListener('click', (event) => {
     countOpenCells.push(coorBtn);
     disabledArrey.push(coorBtn);
   }
-  if (localStorage.getItem('countOpenCells').length > 0) {
-    localStorage.setItem('countOpenCells', `${localStorage.getItem('countOpenCells')},${countOpenCells.toString()}`);
-    countOpenCells = localStorage.getItem('countOpenCells').split('.');
-    countOpenCells = countOpenCells.map((el) => Number(el));
+  if (localStorage.getItem('countOpenCells')){
+    if (localStorage.getItem('countOpenCells').length > 0) {
+      localStorage.setItem('countOpenCells', `${localStorage.getItem('countOpenCells')},${countOpenCells.toString()}`);
+      countOpenCells = localStorage.getItem('countOpenCells').split('.');
+      countOpenCells = countOpenCells.map((el) => Number(el));
+    }
   } else {
     localStorage.setItem('countOpenCells', countOpenCells.toString());
   }
@@ -572,9 +577,10 @@ function addFlag() {
 }
 
 let countLongLeftMousClick = 0;
+if (localStorage.getItem('flag')){
 let flagSet = localStorage.getItem('flag').split(',');
 flagSet = flagSet.filter((number) => number !== '');
-flagSet = flagSet.map((el) => Number(el));
+flagSet = flagSet.map((el) => Number(el));}
 mineAreaDom.addEventListener('contextmenu', (event) => {
   event.preventDefault();
   src = 'audio/tick.mp3';
