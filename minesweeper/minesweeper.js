@@ -385,14 +385,18 @@ mineAreaDom.addEventListener('click', (event) => {
     win();
     winLose();
   }
-  if (localStorage.getItem('disabled').length > 0) {
-    localStorage.setItem('disabled', `${localStorage.getItem('disabled')},${disabledArrey.toString()}`);
+  if (localStorage.getItem('disabled')) {
+    if (localStorage.getItem('disabled').length > 0) {
+      localStorage.setItem('disabled', `${localStorage.getItem('disabled')},${disabledArrey.toString()}`);
+    }
   } else {
     localStorage.setItem('disabled', disabledArrey.toString());
   }
-  if (localStorage.getItem('inner').length > 0) {
-    localStorage.setItem('inner', `${localStorage.getItem('inner')},${stateCells.toString()}`);
-  } else {
+  if (localStorage.getItem('inner')) {
+    if (localStorage.getItem('inner').length > 0) {
+      localStorage.setItem('inner', `${localStorage.getItem('inner')},${stateCells.toString()}`);
+    }
+  }else {
     localStorage.setItem('inner', stateCells.toString());
   }
 
@@ -586,7 +590,7 @@ function addFlag() {
 let countLongLeftMousClick = 0;
 
 let flagSet = [];
-if (localStorage.getItem('flag') !== '') {
+if (localStorage.getItem('flag')) {
   flagSet = localStorage.getItem('flag').split(',');
   flagSet = flagSet.filter((number) => number !== '');
   flagSet = flagSet.map((el) => Number(el));
