@@ -584,10 +584,13 @@ function addFlag() {
 }
 
 let countLongLeftMousClick = 0;
-if (localStorage.getItem('flag')){
-let flagSet = localStorage.getItem('flag').split(',');
-flagSet = flagSet.filter((number) => number !== '');
-flagSet = flagSet.map((el) => Number(el));}
+
+let flagSet = [];
+if (localStorage.getItem('flag')) {
+  let flagSet = localStorage.getItem('flag').split(',');
+  flagSet = flagSet.filter((number) => number !== '');
+  flagSet = flagSet.map((el) => Number(el));
+}
 mineAreaDom.addEventListener('contextmenu', (event) => {
   event.preventDefault();
   src = 'audio/tick.mp3';
