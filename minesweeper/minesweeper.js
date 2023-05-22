@@ -194,7 +194,9 @@ const children = Array.from(mineAreaDom.children);
 function localStorageFunc() {
   if (localStorage.getItem('bombArrey') !== '') {
     bombIsReady = true;
-    bomb = localStorage.getItem('bombArrey').split(',');
+    if (localStorage.getItem('bombArrey')){
+      bomb = localStorage.getItem('bombArrey').split(',');
+    }
     const inner = localStorage.getItem('inner').split(',');
     let dis = localStorage.getItem('disabled').split(',');
 
